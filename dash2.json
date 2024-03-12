@@ -1,0 +1,132 @@
+{
+  "datasource": {
+    "uid": "fc5ca19e-84c4-4ec0-a8e8-19f327a04dbd",
+    "type": "postgres"
+  },
+  "type": "stat",
+  "title": "Direção do vento",
+  "gridPos": {
+    "x": 8,
+    "y": 0,
+    "w": 9,
+    "h": 12
+  },
+  "id": 3,
+  "targets": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "fc5ca19e-84c4-4ec0-a8e8-19f327a04dbd"
+      },
+      "refId": "A",
+      "format": "table",
+      "rawSql": "SELECT \n  timestamp,\n  CASE\n    WHEN AVG(winddirection) BETWEEN 337.5 AND 360 OR AVG(winddirection) BETWEEN 0 AND 22.5 THEN 'N'\n    WHEN AVG(winddirection) BETWEEN 22.5 AND 67.5 THEN 'NE'\n    WHEN AVG(winddirection) BETWEEN 67.5 AND 112.5 THEN 'E'\n    WHEN AVG(winddirection) BETWEEN 112.5 AND 157.5 THEN 'SE'\n    WHEN AVG(winddirection) BETWEEN 157.5 AND 202.5 THEN 'S'\n    WHEN AVG(winddirection) BETWEEN 202.5 AND 247.5 THEN 'SW'\n    WHEN AVG(winddirection) BETWEEN 247.5 AND 292.5 THEN 'W'\n    WHEN AVG(winddirection) BETWEEN 292.5 AND 337.5 THEN 'NW'\n    ELSE 'Calculando direção'\n  END AS average_winddirection_letter,\n  AVG(winddirection) AS average_winddirection\nFROM weather_data\nGROUP BY timestamp;\n",
+      "editorMode": "code",
+      "sql": {
+        "columns": [
+          {
+            "type": "function",
+            "name": "AVG",
+            "parameters": [
+              {
+                "type": "functionParameter",
+                "name": "winddirection"
+              }
+            ]
+          }
+        ],
+        "groupBy": [
+          {
+            "type": "groupBy",
+            "property": {
+              "type": "string",
+              "name": "winddirection"
+            }
+          }
+        ],
+        "limit": 50
+      },
+      "table": "weather_data",
+      "rawQuery": true
+    }
+  ],
+  "options": {
+    "reduceOptions": {
+      "values": false,
+      "calcs": [
+        "first"
+      ],
+      "fields": ""
+    },
+    "orientation": "auto",
+    "textMode": "auto",
+    "colorMode": "value",
+    "graphMode": "area",
+    "justifyMode": "auto",
+    "text": {
+      "titleSize": 12
+    }
+  },
+  "fieldConfig": {
+    "defaults": {
+      "mappings": [
+        {
+          "type": "value",
+          "options": {
+            "0": {
+              "text": "N",
+              "color": "blue",
+              "index": 0
+            },
+            "90": {
+              "text": "L",
+              "color": "green",
+              "index": 1
+            },
+            "180": {
+              "text": "S",
+              "color": "orange",
+              "index": 2
+            },
+            "270": {
+              "text": "O",
+              "color": "purple",
+              "index": 3
+            },
+            "360": {
+              "text": "N",
+              "color": "red",
+              "index": 4
+            }
+          }
+        }
+      ],
+      "thresholds": {
+        "mode": "percentage",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "orange",
+            "value": 70
+          },
+          {
+            "color": "red",
+            "value": 100
+          }
+        ]
+      },
+      "color": {
+        "mode": "palette-classic"
+      },
+      "unit": "degree",
+      "min": 0,
+      "max": 359
+    },
+    "overrides": []
+  },
+  "pluginVersion": "10.2.0",
+  "transparent": true
+}

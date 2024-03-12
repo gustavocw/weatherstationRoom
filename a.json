@@ -1,0 +1,48 @@
+{
+    "datasource": {
+      "uid": "c021009f-e234-4f1d-af3a-9893a01b1de7",
+      "type": "postgres"
+    },
+    "type": "operato-windrose-panel",
+    "title": "Direção e Velocidade do Vento",
+    "gridPos": {
+      "x": 0,
+      "y": 0,
+      "w": 9,
+      "h": 7
+    },
+    "id": 3,
+    "options": {
+      "colorPalette": "default",
+      "petalsPer90Deg": 4,
+      "speedBucketsCount": 8,
+      "speedBucketsSizeAuto": true,
+      "speedBucketsSize": 2,
+      "tooltipDecimalPlaces": 1,
+      "windSpeedUnit": "kmh",
+      "windroseLabels": "compass",
+      "cardinalLabels": "cardinal",
+      "showLegend": true,
+      "doesLegendOverlay": false,
+      "legendPosition": "right",
+      "legendAnchor": "bottom"
+    },
+  "targets": [
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "c021009f-e234-4f1d-af3a-9893a01b1de7"
+        },
+        "refId": "A",
+        "format": "table",
+        "rawSql": "SELECT winddirection, windspeed * 3.6 AS windspeed_kmh FROM weather_data LIMIT 50",
+        "editorMode": "raw",
+                "table": "weather_data"
+              }
+      ],
+          "limit": 50
+        },
+        "table": "weather_data"
+      }
+    ]
+  }

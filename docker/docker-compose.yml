@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: U8I9O0P-
+    volumes:
+      - /home/fttech/db-saver
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    user: '0'
+    ports:
+      - "3000:3000"
+    environment:
+     - GF_FEATURE_TOGGLES_ENABLE=publicDashboards
+     - GF_AUTH_ANONYMOUS_ENABLED=true
+     - GF_AUTH_ANONYMOUS_HIDE_VERSION=true
+    volumes:
+      - ~/docker/grafana:/var/lib/grafana
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
